@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>أبو يقين للشحن - شحن جواهر فري فاير</title>
+  <style>
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_Sudan.svg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      padding: 50px;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(0,0,0,0.7);
+      padding: 30px;
+      border-radius: 15px;
+      width: 370px;
+      margin: auto;
+      box-shadow: 0px 0px 20px rgba(0,0,0,0.9);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #ffdd00;
+    }
+
+    input, select, button {
+      width: 90%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      background: #27ae60;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2ecc71;
+    }
+
+    .success {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #00ff88;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    option {
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💎 أبو يقين لشحن جواهر فري فاير 💎</h1>
+
+    <form id="gemForm">
+      <!-- ID اللاعب -->
+      <input type="text" id="playerId" placeholder="أدخل ID اللاعب" required>
+
+      <!-- اختيار الباقة -->
+      <select id="gemAmount" required>
+        <option value="">اختر الباقة</option>
+        <option value="100|2000 SDG">🇸🇩 100 جوهرة - 2000 SDG</option>
+        <option value="310|5000 SDG">🇸🇩 310 جوهرة - 5000 SDG</option>
+        <option value="520|9 USD">💵 520 جوهرة - 9 USD</option>
+        <option value="1060|17 USD">💵 1060 جوهرة - 17 USD</option>
+      </select>
+
+      <!-- اختيار نوع المحفظة -->
+      <select id="walletType" required>
+        <option value="">اختر المحفظة</option>
+        <option value="بنكك">💳 بنكك</option>
+        <option value="MTN">📱 MTN</option>
+        <option value="سوداني">📱 سوداني</option>
+        <option value="زين كاش">💰 زين كاش</option>
+      </select>
+
+      <!-- رقم المحفظة -->
+      <input type="tel" id="walletNumber" placeholder="رقم الهاتف المرتبط بالمحفظة" required>
+
+      <button type="submit">اشحن الآن</button>
+    </form>
+
+    <div class="success" id="successMessage">
+      ✅ تم شحن الجواهر لحسابك بنجاح (وهمي للتجربة فقط)
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('gemForm');
+    const successMessage = document.getElementById('successMessage');
+
+    // دالة للتحقق من صحة رقم الهاتف
+    const isValidPhone = (phone) => {
+      return /^(\d{9,10})$/.test(phone);  // يسمح فقط بـ 9 أو 10 أرقام
+    };
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const playerId = document.getElementById('playerId').value.trim();
+      const selected = document.getElementById('gemAmount').value;
+      const walletType = document.getElementById('walletType').value;
+      const walletNumber = document.getElementById('walletNumber').value.trim();
+
+      // تحقق من صحة رقم الهاتف
+      if (!isValidPhone(walletNumber)) {
+        alert("📵 رقم الهاتف غير صحيح! الرجاء إدخال رقم مكوّن من 9 أو 10 أرقام.");
+        return;
+      }
+
+      if (playerId && selected && walletType && walletNumber) {
+        const parts = selected.split("|");
+        const gems = parts[0];
+        const price = parts[1];
+
+        successMessage.style.display = 'block';
+        successMessage.textContent =
+`✅ تم شحن ${gems} جوهرة لحساب ID: ${playerId}
+💰 المحفظة: ${walletType}
+📱 رقم الهاتف: ${walletNumber}
+💵 المبلغ المطلوب: ${price}
+(تنبيه: هذا النموذج تجريبي فقط)`;
+      }
+    });
+  </script>
+</body>
+</html>
